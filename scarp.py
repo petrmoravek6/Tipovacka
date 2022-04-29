@@ -1,3 +1,4 @@
+import csv
 import datetime
 import re
 import sys
@@ -12,6 +13,11 @@ class Scarper:
         self.url = url
         self.competition_start = competition_start
         self.competition_end = competition_end
+        self.f = open('csv/test.csv', 'a')
+        self.writer = csv.writer(self.f)
+
+    def __del__(self):
+        self.f.close()
 
     def update_results_in_database(self, database):
         most_recent_match_date = database.get_date_of_last_result()
@@ -79,3 +85,7 @@ class Scarper:
                 print(f'{phase}: {home_team} {score[0]}:{score[1]} {away_team},\t{datetime_object}')
                 database.add_match_result(phase, home_team, away_team, score[0], score[1], datetime_object.day,
                                           datetime_object.month, datetime_object.year)
+                if phase == 'Group Stage':
+                    self.writer.writerow([phase, home_team, away_team])
+                else:
+                    self.writer.writerow([phase])

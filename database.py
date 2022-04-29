@@ -22,7 +22,7 @@ class Database:
             date_year INTEGER NOT NULL,
             PRIMARY KEY (phase, home_team, away_team)
         );""")
-        self.db.execute("""CREATE TABLE if not exists match_guess (
+        self.db.execute("""CREATE TABLE if not exists match_guess_gs (
             nickname_player TEXT NOT NULL,
             phase TEXT NOT NULL,
             home_team TEXT NOT NULL,
@@ -31,6 +31,12 @@ class Database:
             home_team_score INTEGER NOT NULL,
             PRIMARY KEY (nickname_player, phase, home_team, away_team)
         );""")
+        self.db.execute("""CREATE TABLE if not exists match_guess_ks (
+                    nickname_player TEXT NOT NULL,
+                    phase TEXT NOT NULL,
+                    team TEXT NOT NULL,
+                    PRIMARY KEY (nickname_player, phase, team)
+                );""")
         self.__commit_and_close()
 
     def __connect(self):
@@ -41,13 +47,19 @@ class Database:
         self.conn.commit()
         self.conn.close()
 
+    def player_exists(self, nickname):
+        self.__connect()
+        self.db.execute("SELECT * FROM player WHERE nickname_player=?", (nickname,))
+        if self.db.fetchone() is None:
+            self.__commit_and_close()
+            return False
+        else:
+            self.__commit_and_close()
+            return True
+
     def add_player(self, nickname, name):
         self.__connect()
-        try:
-            self.db.execute("INSERT INTO player VALUES (?, ?)", (nickname, name))
-        except sqlite3.IntegrityError:
-            print("Name Alreasy in the database")
-            sys.exit(1)
+        self.db.execute("INSERT INTO player VALUES (?, ?)", (nickname, name))
         self.__commit_and_close()
 
     def del_player(self, nickname):
@@ -56,10 +68,16 @@ class Database:
         self.db.execute("DELETE FROM match_guess WHERE nickname_player=?", (nickname,))
         self.__commit_and_close()
 
-    def add_match_guess(self, name, phase, home_team, away_team, home_team_score, away_team_score):
+    def add_match_guess_gs(self, name, phase, home_team, away_team, home_team_score, away_team_score):
         self.__connect()
         self.db.execute("INSERT INTO match_guess VALUES (?,?,?,?,?,?)",
                         (name, phase, home_team, away_team, home_team_score, away_team_score))
+        self.__commit_and_close()
+
+    def add_match_guess_ks(self, name, phase, team):
+        self.__connect()
+        self.db.execute("INSERT INTO match_guess VALUES (?,?,?)",
+                        (name, phase, team))
         self.__commit_and_close()
 
     def add_match_result(self, phase, home_team, away_team, home_team_score, away_team_score, day, month, year):
@@ -70,7 +88,8 @@ class Database:
 
     def get_date_of_last_result(self):
         self.__connect()
-        self.db.execute("SELECT date_day, date_month, date_year FROM match_result ORDER BY date_year DESC, date_month DESC, date_day DESC ")
+        self.db.execute(
+            "SELECT date_day, date_month, date_year FROM match_result ORDER BY date_year DESC, date_month DESC, date_day DESC ")
         date = self.db.fetchone()
         self.__commit_and_close()
         if date is None:
@@ -90,4 +109,3 @@ class Database:
             "SELECT * FROM match_guess")
         print(self.db.fetchall())
         self.__commit_and_close()
-
