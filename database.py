@@ -109,3 +109,10 @@ class Database:
             "SELECT * FROM match_guess")
         print(self.db.fetchall())
         self.__commit_and_close()
+
+    def print_all_results(self):
+        self.__connect()
+        self.db.execute(
+            "SELECT * FROM match_result")
+        print(self.db.fetchall())
+        self.__commit_and_close()

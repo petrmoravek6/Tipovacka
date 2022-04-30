@@ -16,6 +16,7 @@ class Game:
     def __init__(self):
         self.database = Database()
         self.scarper = Scarper(COMPETITION_URL, COMPETITION_START, COMPETITION_END)
+        self.update_results()
 
     def update_results(self):
         try:
@@ -52,23 +53,3 @@ class Game:
         nickname = ''
         self.database.del_player(nickname)
 
-
-try:
-    os.remove('database.db')
-except FileNotFoundError:
-    pass
-game = Game()
-# game.database.add_player('Honza', 'F K')
-# game.database.add_player('Petr', 'F G')
-# game.database.add_player('Břéťa', 'R T')
-# game.database.add_match_guess('Honza', 'GS', 'Italy', 'Germany', 2, 1)
-# game.database.add_match_guess('Petr', 'GS', 'Italy', 'Germany', 2, 1)
-# game.database.add_match_guess('Honza', 'GS', 'Sweden', 'Germany', 2, 1)
-# game.database.add_match_guess('Honza', 'FI', 'Italy', 'Germany', 2, 1)
-# game.database.print_all_playes()
-# game.database.print_all_guesses()
-# game.database.del_player('Petr')
-# game.database.print_all_playes()
-# game.database.print_all_guesses()
-game.scarper.update_results_in_database(game.database)
-os.remove('database.db')
