@@ -65,18 +65,19 @@ class Database:
     def del_player(self, nickname):
         self.__connect()
         self.db.execute("DELETE FROM player WHERE nickname_player=?", (nickname,))
-        self.db.execute("DELETE FROM match_guess WHERE nickname_player=?", (nickname,))
+        self.db.execute("DELETE FROM match_guess_gs WHERE nickname_player=?", (nickname,))
+        self.db.execute("DELETE FROM match_guess_ks WHERE nickname_player=?", (nickname,))
         self.__commit_and_close()
 
     def add_match_guess_gs(self, name, phase, home_team, away_team, home_team_score, away_team_score):
         self.__connect()
-        self.db.execute("INSERT INTO match_guess VALUES (?,?,?,?,?,?)",
+        self.db.execute("INSERT INTO match_guess_gs VALUES (?,?,?,?,?,?)",
                         (name, phase, home_team, away_team, home_team_score, away_team_score))
         self.__commit_and_close()
 
     def add_match_guess_ks(self, name, phase, team):
         self.__connect()
-        self.db.execute("INSERT INTO match_guess VALUES (?,?,?)",
+        self.db.execute("INSERT INTO match_guess_ks VALUES (?,?,?)",
                         (name, phase, team))
         self.__commit_and_close()
 
@@ -96,19 +97,13 @@ class Database:
             return None
         return datetime(date[2], date[1], date[0])
 
-    def print_all_playes(self):
+    def get_all_players(self):
         self.__connect()
         self.db.execute(
-            "SELECT * FROM player")
-        print(self.db.fetchall())
+            "SELECT nickname_player FROM player")
+        players = self.db.fetchall()
         self.__commit_and_close()
-
-    def print_all_guesses(self):
-        self.__connect()
-        self.db.execute(
-            "SELECT * FROM match_guess")
-        print(self.db.fetchall())
-        self.__commit_and_close()
+        return players
 
     def print_all_results(self):
         self.__connect()

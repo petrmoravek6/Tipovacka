@@ -28,20 +28,15 @@ class Game:
             print("ERROR during scarping")
             sys.exit(1)
 
-    def add_player(self):
-        name = ''
-        nickname = ''
-        csv_file = ''
+    def add_player(self, nickname, name, filepath):
         if self.database.player_exists(nickname):
-            print("Name already in the database")
-            sys.exit(2)
+            raise NicknameAlreadyInDatabase
         rules_tester = Rules()
-        if not rules_tester.test_csv_file(csv_file):
-            print("CSV file doesn't match its requirements")
-            sys.exit(2)
+        if not rules_tester.test_csv_file(filepath):
+            raise BadCSVFile
         else:
             self.database.add_player(nickname, name)
-            with open(csv_file, mode='r') as teams_file:
+            with open(filepath, mode='r') as teams_file:
                 csv_reader = csv.reader(teams_file)
                 for row in csv_reader:
                     if row[0] == 'Group Stage':
@@ -49,7 +44,13 @@ class Game:
                     else:
                         self.database.add_match_guess_ks(nickname, row[0], row[1])
 
-    def remove_player(self):
-        nickname = ''
+    def remove_player(self, nickname):
         self.database.del_player(nickname)
 
+
+class NicknameAlreadyInDatabase(Exception):
+    pass
+
+
+class BadCSVFile(Exception):
+    pass
