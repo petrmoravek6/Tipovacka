@@ -2,12 +2,13 @@ from PyQt6 import QtWidgets, QtCore
 
 
 class RemovePlayerWidget(QtWidgets.QWidget):
-    def __init__(self, game, parent=None):
+    def __init__(self, game, main_window, parent=None):
         super(RemovePlayerWidget, self).__init__(parent)
         self.game = game
-        self.resize(400, 520)
-        self.setMaximumSize(QtCore.QSize(400, 520))
-        self.setMinimumSize(QtCore.QSize(400, 520))
+        self.main_window = main_window
+        self.resize(380, 410)
+        self.setMaximumSize(QtCore.QSize(380, 410))
+        self.setMinimumSize(QtCore.QSize(380, 410))
         self.setObjectName("removePlayerWidget")
         self.setWindowModality(QtCore.Qt.WindowModality.ApplicationModal)
         self.setLocale(QtCore.QLocale(QtCore.QLocale.Language.Czech, QtCore.QLocale.Country.Czechia))
@@ -25,7 +26,7 @@ class RemovePlayerWidget(QtWidgets.QWidget):
         self.verticalLayout.addWidget(self.remove_btn)
         self.exit_btn = QtWidgets.QPushButton(self)
         self.exit_btn.setObjectName("exit_btn")
-        self.exit_btn.clicked.connect(lambda: self.close())
+        self.exit_btn.clicked.connect(lambda: self.cancel_btn_clicked())
         self.verticalLayout.addWidget(self.exit_btn)
         self.horizontalLayout.addLayout(self.verticalLayout)
         self.display_list_of_players()
@@ -48,3 +49,7 @@ class RemovePlayerWidget(QtWidgets.QWidget):
         self.listWidget.clear()
         for idx, nickname in enumerate(self.game.database.get_all_players()):
             self.listWidget.insertItem(idx, nickname[0])
+
+    def cancel_btn_clicked(self):
+        self.close()
+        self.main_window.display_rankings_table()

@@ -1,5 +1,13 @@
 import csv
 
+POINTS_FOR_EXACT_MATCH_RESULT = 20
+POINTS_FOR_MATCH_RESULT = 5
+POINTS_FOR_ROUND_OF_16_TEAM = 10
+POINTS_FOR_QUARTER_FINALS_TEAM = 15
+POINTS_FOR_SEMI_FINALS_TEAM = 25
+POINTS_FOR_FINAL_TEAM = 75
+POINTS_FOR_WINNER_TEAM = 125
+
 
 def is_positive_integer(number):
     try:
@@ -43,42 +51,63 @@ class Rules:
                 elif row[0] == 'Round of 16':
                     if row[1] not in self.list_of_teams or self.round_of_16_teams_cnt <= 0 \
                             or row[1] in self.round_of_16_teams:
-                        print("8")
                         return False
                     self.round_of_16_teams_cnt -= 1
                     self.round_of_16_teams.add(row[1])
                 elif row[0] == 'Quarter-Finals':
                     if row[1] not in self.round_of_16_teams or self.quarter_finals_teams_cnt <= 0 \
                             or row[1] in self.quarter_finals_teams:
-                        print("4")
                         return False
                     self.quarter_finals_teams_cnt -= 1
                     self.quarter_finals_teams.add(row[1])
                 elif row[0] == 'Semi-Finals':
                     if row[1] not in self.quarter_finals_teams or self.semi_finals_teams_cnt <= 0 \
                             or row[1] in self.semi_finals_teams:
-                        print("2")
                         return False
                     self.semi_finals_teams_cnt -= 1
                     self.semi_finals_teams.add(row[1])
                 elif row[0] == 'Final':
                     if row[1] not in self.semi_finals_teams or self.final_teams_cnt <= 0 or row[1] in self.final_teams:
-                        print("F")
                         return False
                     self.final_teams_cnt -= 1
                     self.final_teams.add(row[1])
                 elif row[0] == 'Winner':
                     if row[1] not in self.final_teams or self.winner_cnt <= 0:
-                        print("W")
                         return False
                     self.winner_cnt -= 1
                 else:
-                    print("else")
                     return False
             if self.group_stage_teams_cnt != 0 or self.round_of_16_teams_cnt != 0 \
                     or self.quarter_finals_teams_cnt != 0 or self.semi_finals_teams_cnt != 0 \
                     or self.final_teams_cnt != 0 or self.winner_cnt != 0:
-                print("cnt")
                 return False
         return True
+
+
+def determine_points(guess, result):
+    if guess is None:
+        return 0
+
+    if result[0] == 'Group Stage':
+        # exact result
+        if result[3] == guess[4] and result[4] == guess[5]:
+            return POINTS_FOR_EXACT_MATCH_RESULT
+        # draw or win or lose guessed right
+        elif result[3] == result[4] and guess[4] == guess[5] \
+            or result[3] > result[4] and guess[4] > guess[5] \
+            or result[3] < result[4] and guess[4] < guess[5]:
+            return POINTS_FOR_MATCH_RESULT
+        else:
+            return 0
+
+    elif result[0] == 'Round of 16':
+        return POINTS_FOR_ROUND_OF_16_TEAM
+    elif result[0] == 'Quarter-Finals':
+        return POINTS_FOR_QUARTER_FINALS_TEAM
+    elif result[0] == 'Semi-Finals':
+        return POINTS_FOR_SEMI_FINALS_TEAM
+    elif result[0] == 'Final':
+        return POINTS_FOR_FINAL_TEAM
+    elif guess[1] == 'Winner':
+        return POINTS_FOR_WINNER_TEAM
 

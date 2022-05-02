@@ -105,9 +105,26 @@ class Database:
         self.__commit_and_close()
         return players
 
-    def print_all_results(self):
+    def get_all_results(self):
         self.__connect()
         self.db.execute(
             "SELECT * FROM match_result")
-        print(self.db.fetchall())
+        results = self.db.fetchall()
         self.__commit_and_close()
+        return results
+
+    def get_match_guess_gs(self, nickname_player, phase, home_team, away_team):
+        self.__connect()
+        self.db.execute(
+            "SELECT * FROM match_guess_gs WHERE nickname_player=? AND phase=? AND home_team=? AND away_team=?", (nickname_player, phase, home_team, away_team))
+        guess = self.db.fetchone()
+        self.__commit_and_close()
+        return guess
+
+    def get_match_guess_ks(self, nickname_player, phase, team):
+        self.__connect()
+        self.db.execute(
+            "SELECT * FROM match_guess_ks WHERE nickname_player=? AND phase=? AND team=?", (nickname_player, phase, team))
+        guess = self.db.fetchone()
+        self.__commit_and_close()
+        return guess

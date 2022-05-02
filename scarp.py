@@ -57,6 +57,7 @@ class Scarper:
                 if match_live_clock is None:
                     continue
                 match_live_clock = match_live_clock.text
+                #scarp final and add it to sql match result database as phase: Final-Full Result
                 # extra time / penalties
                 if match_live_clock == 'AET':
                     details_url = 'https://www.sportinglife.com' + match.find('a')['href']

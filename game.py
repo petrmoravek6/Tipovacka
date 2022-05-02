@@ -4,7 +4,7 @@ import sys
 from datetime import datetime
 import requests
 from database import Database
-from rules import Rules
+from rules import Rules, determine_points
 from scarp import Scarper
 
 COMPETITION_URL = "https://www.sportinglife.com/football/fixtures-results/competitions/champions-league/63"
@@ -46,6 +46,25 @@ class Game:
 
     def remove_player(self, nickname):
         self.database.del_player(nickname)
+
+    def count_points_of_player(self, player_nickname, results):
+        cnt = 0
+        for res in results:
+            if res[0] == 'Group Stage':
+                cnt += determine_points(
+                    self.database.get_match_guess_gs(player_nickname, 'Group Stage', res[1], res[2]), res)
+            elif res[0] == 'Final':
+                cnt += determine_points(self.database.get_match_guess_ks(player_nickname, 'Final', res[1]), res)
+                cnt += determine_points(self.database.get_match_guess_ks(player_nickname, 'Final', res[2]), res)
+            elif res[0] == 'Final-Full Result':
+                if res[3] > res[4]:
+                    cnt += determine_points(self.database.get_match_guess_ks(player_nickname, 'Winner', res[1]), res)
+                else:
+                    cnt += determine_points(self.database.get_match_guess_ks(player_nickname, 'Winner', res[2]), res)
+            else:
+                cnt += determine_points(self.database.get_match_guess_ks(player_nickname, res[0], res[1]), res)
+
+        return cnt
 
 
 class NicknameAlreadyInDatabase(Exception):

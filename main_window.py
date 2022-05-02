@@ -1,7 +1,8 @@
 from PyQt6 import QtCore, QtWidgets
 from PyQt6.QtGui import QMovie
 from PyQt6.QtWidgets import QTableWidget, QDialog, QMainWindow, QApplication, QDialogButtonBox, QVBoxLayout, QLabel, \
-    QWidget
+    QWidget, QTableWidgetItem
+from PyQt6 import QtGui
 
 from add_player_widget import AddPlayerWidget
 from remove_player_widget import RemovePlayerWidget
@@ -77,10 +78,17 @@ class MainWindow(QMainWindow):
         self.rankingsTable.setMaximumSize(QtCore.QSize(300, 310))
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        font = QtGui.QFont()
+        font.setBold(True)
+        item.setFont(font)
         self.rankingsTable.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
         item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        item.setFont(font)
         self.rankingsTable.setHorizontalHeaderItem(1, item)
+        self.rankingsTable.setColumnWidth(0, 228)
+        self.rankingsTable.setColumnWidth(1, 45)
+        self.display_rankings_table()
         self.verticalLayout_3.addWidget(self.rankingsTable)
         self.reload_btn = QtWidgets.QPushButton(self.widget)
         self.reload_btn.setObjectName("reload_btn")
@@ -108,23 +116,30 @@ class MainWindow(QMainWindow):
         self.end_btn.setText(_translate("MainWindow", "Konec"))
         self.reload_btn.setText(_translate("MainWindow", "Aktualizovat"))
         item = self.rankingsTable.horizontalHeaderItem(0)
-        item.setText(_translate("Form", "Hráč"))
+        item.setText(_translate("rankings_table", "Hráč"))
         item = self.rankingsTable.horizontalHeaderItem(1)
-        item.setText(_translate("Form", "Body"))
+        item.setText(_translate("rankings_table", "Body"))
+
         self.gif.setMovie(self.movie)
         self.movie.start()
 
     def add_player_clicked(self):
-        wid = AddPlayerWidget(self.game)
+        wid = AddPlayerWidget(self.game, self)
         wid.show()
 
     def remove_player_clicked(self):
-        wid = RemovePlayerWidget(self.game)
+        wid = RemovePlayerWidget(self.game, self)
         wid.show()
 
     def reload_btn_clicked(self):
         self.game.update_results()
-        # update tabulku
+        self.display_rankings_table()
 
     def display_rankings_table(self):
-        self.rankingsTable.set
+        self.rankingsTable.setRowCount(0)
+        results = self.game.database.get_all_results()
+        for idx, nickname in enumerate(self.game.database.get_all_players()):
+            self.rankingsTable.insertRow(idx)
+            self.rankingsTable.setItem(idx, 0, QTableWidgetItem(nickname[0]))
+            pts = self.game.count_points_of_player(nickname[0], results)
+            self.rankingsTable.setItem(idx, 1, QTableWidgetItem(str(pts)))

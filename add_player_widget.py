@@ -7,15 +7,16 @@ from game import NicknameAlreadyInDatabase, BadCSVFile
 
 
 class AddPlayerWidget(QtWidgets.QWidget):
-    def __init__(self, game, parent=None):
+    def __init__(self, game,main_window ,parent=None):
         super(AddPlayerWidget, self).__init__(parent)
         self.game = game
+        self.main_window = main_window
         self.nickname = ""
         self.name = ""
         self.csv_file_path = None
-        self.resize(554, 366)
-        self.setMinimumSize(QtCore.QSize(554, 366))
-        self.setMaximumSize(QtCore.QSize(554, 366))
+        self.resize(444, 320)
+        self.setMinimumSize(QtCore.QSize(444, 320))
+        self.setMaximumSize(QtCore.QSize(444, 320))
         self.setGeometry(QtCore.QRect(30, 30, 481, 321))
         self.setObjectName("addPlayerWidget")
         self.setWindowModality(QtCore.Qt.WindowModality.ApplicationModal)
@@ -92,6 +93,7 @@ class AddPlayerWidget(QtWidgets.QWidget):
 
     def cancel_btn_clicked(self):
         self.close()
+        self.main_window.display_rankings_table()
 
     def select_file_btn_clicked(self):
         self.csv_file_path = QFileDialog.getOpenFileName(
