@@ -1,10 +1,11 @@
 from PyQt6 import QtCore, QtWidgets
 from PyQt6.QtGui import QMovie
-from PyQt6.QtWidgets import QTableWidget, QDialog, QMainWindow, QApplication, QDialogButtonBox, QVBoxLayout, QLabel, \
-    QWidget, QTableWidgetItem
+from PyQt6.QtWidgets import QTableWidget, QMainWindow, QTableWidgetItem
 from PyQt6 import QtGui
 
 from add_player_widget import AddPlayerWidget
+from help_widget import HelpWidget
+from player_details_widget import PlayerDetailsWidget
 from remove_player_widget import RemovePlayerWidget
 
 
@@ -17,9 +18,9 @@ class MainWindow(QMainWindow):
         self.setMinimumSize(QtCore.QSize(570, 390))
         self.setMaximumSize(QtCore.QSize(570, 390))
         self.setLocale(QtCore.QLocale(QtCore.QLocale.Language.Czech, QtCore.QLocale.Country.Czechia))
-        self.centralwidget = QtWidgets.QWidget(self)
-        self.centralwidget.setObjectName("centralwidget")
-        self.widget = QtWidgets.QWidget(self.centralwidget)
+        self.central_widget = QtWidgets.QWidget(self)
+        self.central_widget.setObjectName("central_widget")
+        self.widget = QtWidgets.QWidget(self.central_widget)
         self.widget.setObjectName("widget")
         self.verticalLayout_4 = QtWidgets.QVBoxLayout(self.widget)
         self.verticalLayout_4.setContentsMargins(12, 20, 12, 10)
@@ -53,10 +54,12 @@ class MainWindow(QMainWindow):
         self.leftButtonsLayout.addWidget(self.remove_player_btn)
         self.player_details_btn = QtWidgets.QPushButton(self.widget)
         self.player_details_btn.setObjectName("player_details_btn")
+        self.player_details_btn.clicked.connect(lambda: self.player_details_btn_clicked())
         self.buttonGroup.addButton(self.player_details_btn)
         self.leftButtonsLayout.addWidget(self.player_details_btn)
         self.help_btn = QtWidgets.QPushButton(self.widget)
         self.help_btn.setObjectName("help_btn")
+        self.help_btn.clicked.connect(self.help_btn_clicked)
         self.buttonGroup.addButton(self.help_btn)
         self.leftButtonsLayout.addWidget(self.help_btn)
         self.end_btn = QtWidgets.QPushButton(self.widget)
@@ -96,7 +99,7 @@ class MainWindow(QMainWindow):
         self.verticalLayout_3.addWidget(self.reload_btn)
         self.horizontalLayout.addLayout(self.verticalLayout_3)
         self.verticalLayout_4.addLayout(self.horizontalLayout)
-        self.setCentralWidget(self.centralwidget)
+        self.setCentralWidget(self.central_widget)
         self.statusbar = QtWidgets.QStatusBar(self)
         self.statusbar.setObjectName("statusbar")
         self.setStatusBar(self.statusbar)
@@ -124,16 +127,24 @@ class MainWindow(QMainWindow):
         self.movie.start()
 
     def add_player_clicked(self):
-        wid = AddPlayerWidget(self.game, self)
-        wid.show()
+        window = AddPlayerWidget(self.game, self)
+        window.show()
 
     def remove_player_clicked(self):
-        wid = RemovePlayerWidget(self.game, self)
-        wid.show()
+        window = RemovePlayerWidget(self.game, self)
+        window.show()
 
     def reload_btn_clicked(self):
         self.game.update_results()
         self.display_rankings_table()
+
+    def help_btn_clicked(self):
+        window = HelpWidget()
+        window.show()
+
+    def player_details_btn_clicked(self):
+        window = PlayerDetailsWidget(self.game)
+        window.show()
 
     def display_rankings_table(self):
         self.rankingsTable.setRowCount(0)
@@ -143,3 +154,4 @@ class MainWindow(QMainWindow):
             self.rankingsTable.setItem(idx, 0, QTableWidgetItem(nickname[0]))
             pts = self.game.count_points_of_player(nickname[0], results)
             self.rankingsTable.setItem(idx, 1, QTableWidgetItem(str(pts)))
+        self.rankingsTable.sortByColumn(1, QtCore.Qt.SortOrder.DescendingOrder)

@@ -15,8 +15,8 @@ class Database:
             phase TEXT NOT NULL,
             home_team TEXT NOT NULL,
             away_team TEXT NOT NULL,
-            away_team_score INTEGER NOT NULL,
             home_team_score INTEGER NOT NULL,
+            away_team_score INTEGER NOT NULL,
             date_day INTEGER NOT NULL,
             date_month INTEGER NOT NULL,
             date_year INTEGER NOT NULL,
@@ -27,8 +27,8 @@ class Database:
             phase TEXT NOT NULL,
             home_team TEXT NOT NULL,
             away_team TEXT NOT NULL,
-            away_team_score INTEGER NOT NULL,
             home_team_score INTEGER NOT NULL,
+            away_team_score INTEGER NOT NULL,
             PRIMARY KEY (nickname_player, phase, home_team, away_team)
         );""")
         self.db.execute("""CREATE TABLE if not exists match_guess_ks (
@@ -128,3 +128,32 @@ class Database:
         guess = self.db.fetchone()
         self.__commit_and_close()
         return guess
+
+    def get_all_match_guesses(self, nickname):
+        self.__connect()
+        self.db.execute(
+            "SELECT * FROM match_guess_gs WHERE nickname_player=?", (nickname,))
+        guesses_gs = self.db.fetchall()
+        self.db.execute(
+            "SELECT * FROM match_guess_ks WHERE nickname_player=?", (nickname,))
+        guesses_ks = self.db.fetchall()
+        self.__commit_and_close()
+        return guesses_gs + guesses_ks
+
+    def get_match_result(self, phase, home_t, away_t):
+        self.__connect()
+        self.db.execute(
+            "SELECT * FROM match_result WHERE phase=? AND home_team=? AND away_team=?",
+            (phase, home_t, away_t))
+        res = self.db.fetchone()
+        self.__commit_and_close()
+        return res
+
+    def get_match_result_by_phase_and_home_team(self, phase, home_t):
+        self.__connect()
+        self.db.execute(
+            "SELECT * FROM match_result WHERE phase=? AND home_team=?",
+            (phase, home_t))
+        res = self.db.fetchone()
+        self.__commit_and_close()
+        return res

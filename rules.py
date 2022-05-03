@@ -85,7 +85,7 @@ class Rules:
 
 
 def determine_points(guess, result):
-    if guess is None:
+    if guess is None or result is None:
         return 0
 
     if result[0] == 'Group Stage':
