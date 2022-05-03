@@ -9,13 +9,14 @@ from bs4 import BeautifulSoup
 class Scarper:
     request_timeout = 3.0
 
-    def __init__(self, url, competition_start, competition_end):
+    def __init__(self, url, competition_start, competition_end, db):
         self.url = url
         self.competition_start = competition_start
         self.competition_end = competition_end
+        self.database = db
 
-    def update_results_in_database(self, database):
-        most_recent_match_date = database.get_date_of_last_result()
+    def update_results_in_database(self):
+        most_recent_match_date = self.database.get_date_of_last_result()
         if most_recent_match_date is None:
             from_date = self.competition_start
         else:
@@ -24,14 +25,14 @@ class Scarper:
         m1 = from_date.month
         y1 = from_date.year
         while (y1, m1) <= (to_date.year, to_date.month):
-            self.update_results_in_database_of_month_and_year(database, m1, y1)
+            self.update_results_in_database_of_month_and_year(m1, y1)
             if m1 + 1 == 13:
                 m1 = 1
                 y1 += 1
             else:
                 m1 += 1
 
-    def update_results_in_database_of_month_and_year(self, database, month, year):
+    def update_results_in_database_of_month_and_year(self, month, year):
         try:
             html_content = requests.get(self.url + '/' + str(year) + '-' + str(str(month).zfill(2)), timeout=Scarper.request_timeout).text
         except requests.exceptions.RequestException:
@@ -58,6 +59,16 @@ class Scarper:
                     continue
                 match_live_clock = match_live_clock.text
                 #scarp final and add it to sql match result database as phase: Final-Full Result
+                if phase == 'Final':
+                    if match_live_clock == 'AET' or match_live_clock == 'FT':
+                        score_final = match.find('span', class_='Item__TeamsModifier-et8305-7 iEeIun').text
+                        score_final = re.findall('[0-9]+', score_final)
+                        home_team = match.find('span', class_='Item__TeamA-et8305-6 leKmkN').text
+                        away_team = match.find('span', class_='Item__TeamB-et8305-8 bHURVJ').text
+                        print(f'Final-Full Result: {home_team} {score_final[0]}:{score_final[1]} {away_team},\t{datetime_object}')
+                        self.database.add_match_result('Final-Full Result', home_team, away_team, score_final[0], score_final[1],
+                                                       datetime_object.day,
+                                                       datetime_object.month, datetime_object.year)
                 # extra time / penalties
                 if match_live_clock == 'AET':
                     details_url = 'https://www.sportinglife.com' + match.find('a')['href']
@@ -79,5 +90,6 @@ class Scarper:
                 home_team = match.find('span', class_='Item__TeamA-et8305-6 leKmkN').text
                 away_team = match.find('span', class_='Item__TeamB-et8305-8 bHURVJ').text
                 print(f'{phase}: {home_team} {score[0]}:{score[1]} {away_team},\t{datetime_object}')
-                database.add_match_result(phase, home_team, away_team, score[0], score[1], datetime_object.day,
+                self.database.add_match_result(phase, home_team, away_team, score[0], score[1], datetime_object.day,
                                           datetime_object.month, datetime_object.year)
+

@@ -15,12 +15,12 @@ COMPETITION_END = datetime(2022, 5, 28)
 class Game:
     def __init__(self):
         self.database = Database()
-        self.scarper = Scarper(COMPETITION_URL, COMPETITION_START, COMPETITION_END)
+        self.scarper = Scarper(COMPETITION_URL, COMPETITION_START, COMPETITION_END, self.database)
         self.update_results()
 
     def update_results(self):
         try:
-            self.scarper.update_results_in_database(self.database)
+            self.scarper.update_results_in_database()
         except requests.exceptions.RequestException:
             print("ERROR network")
             sys.exit(1)
