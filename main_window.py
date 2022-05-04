@@ -159,5 +159,7 @@ class MainWindow(QMainWindow):
             self.rankingsTable.insertRow(idx)
             self.rankingsTable.setItem(idx, 0, QTableWidgetItem(nickname[0]))
             pts = self.game.count_points_of_player(nickname[0], results)
-            self.rankingsTable.setItem(idx, 1, QTableWidgetItem(str(pts)))
+            item = QTableWidgetItem(str(pts))
+            item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+            self.rankingsTable.setItem(idx, 1, item)
         self.rankingsTable.sortByColumn(1, QtCore.Qt.SortOrder.DescendingOrder)

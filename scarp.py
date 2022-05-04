@@ -78,7 +78,7 @@ class Scarper:
                                            class_='PeriodScores__StyledPeriodScores-sc-6qgbsu-0 cCYRhW').text
                     scores = re.findall('[0-9]+-[0-9]', time_info)
                     score = re.findall('[0-9]+', scores[1])
-                    print('AET ', end='')
+                    # print('AET ', end='')
                     # FT means Full Time. If the match clock isn't FT nor AET then don't scarp anything
                 elif match_live_clock == 'FT':
                     score = match.find('span', class_='Item__TeamsModifier-et8305-7 iEeIun').text
@@ -89,6 +89,6 @@ class Scarper:
 
                 home_team = match.find('span', class_='Item__TeamA-et8305-6 leKmkN').text
                 away_team = match.find('span', class_='Item__TeamB-et8305-8 bHURVJ').text
-                print(f'{phase}: {home_team} {score[0]}:{score[1]} {away_team},\t{datetime_object}')
+                # print(f'{phase}: {home_team} {score[0]}:{score[1]} {away_team},\t{datetime_object}')
                 self.database.add_match_result(phase, home_team, away_team, score[0], score[1], datetime_object.day,
                                           datetime_object.month, datetime_object.year)
