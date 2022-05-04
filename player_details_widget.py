@@ -44,27 +44,21 @@ class PlayerDetailsWidget(QtWidgets.QWidget):
         self.table.setSortingEnabled(True)
         item = QtWidgets.QTableWidgetItem()
         font = QtGui.QFont()
+        font.setBold(True)
         font.setPointSize(10)
         item.setFont(font)
         self.table.setHorizontalHeaderItem(0, item)
         item = QtWidgets.QTableWidgetItem()
-        font = QtGui.QFont()
-        font.setPointSize(10)
         item.setFont(font)
         self.table.setHorizontalHeaderItem(1, item)
         item = QtWidgets.QTableWidgetItem()
-        font = QtGui.QFont()
-        font.setPointSize(10)
+
         item.setFont(font)
         self.table.setHorizontalHeaderItem(2, item)
         item = QtWidgets.QTableWidgetItem()
-        font = QtGui.QFont()
-        font.setPointSize(10)
         item.setFont(font)
         self.table.setHorizontalHeaderItem(3, item)
         item = QtWidgets.QTableWidgetItem()
-        font = QtGui.QFont()
-        font.setPointSize(10)
         item.setFont(font)
         self.table.setHorizontalHeaderItem(4, item)
         self.set_column_width()
@@ -110,23 +104,33 @@ class PlayerDetailsWidget(QtWidgets.QWidget):
         player = self.listOfPlayers.currentItem()
         self.table.setRowCount(0)
         matches = self.game.database.get_all_match_guesses(str(player.text()))
-        for idx, match in enumerate(matches):
+        for idx, guess in enumerate(matches):
             self.table.insertRow(idx)
-            self.table.setItem(idx, 0, QTableWidgetItem(match[1]))
-            phase = str(match[1])
+            self.table.setItem(idx, 0, QTableWidgetItem(guess[1]))
+            phase = str(guess[1])
             if phase == 'Group Stage':
-                self.table.setItem(idx, 1, QTableWidgetItem(str(match[2]) + ' : ' + str(match[3])))
-                self.table.setItem(idx, 2, QTableWidgetItem(str(match[4]) + ' : ' + str(match[5])))
-                res = self.game.database.get_match_result('Group Stage', match[2], match[3])
+                self.table.setItem(idx, 1, QTableWidgetItem(str(guess[2]) + ' : ' + str(guess[3])))
+                self.table.setItem(idx, 2, QTableWidgetItem(str(guess[4]) + ' : ' + str(guess[5])))
+                res = self.game.database.get_match_result('Group Stage', guess[2], guess[3])
                 self.table.setItem(idx, 3, QTableWidgetItem(str(res[3]) + ' : ' + str(res[4])))
-                self.table.setItem(idx, 4, QTableWidgetItem(str(determine_points(match, res))))
+                self.table.setItem(idx, 4, QTableWidgetItem(str(determine_points(guess, res))))
             else:
-                self.table.setItem(idx, 1, QTableWidgetItem(str(match[2])))
-                self.table.setItem(idx, 2, QTableWidgetItem("✓"))
-                res = self.game.database.get_match_result_by_phase_and_home_team(phase, match[2])
-                if res is None:
+                self.table.setItem(idx, 1, QTableWidgetItem(str(guess[2])))
+                self.table.setItem(idx, 2, QTableWidgetItem(""))
+                if phase == 'Final':
+                    res = self.game.database.get_match_result_by_phase_and_home_team(phase, guess[2])
+                    if res is None:
+                        res = self.game.database.get_match_result_by_phase_and_away_team(phase, guess[2])
+                elif phase == 'Winner':
+                    res = self.game.database.get_match_result_by_phase_and_home_team("Final-Full Result", guess[2])
+                    if res is None:
+                        res = self.game.database.get_match_result_by_phase_and_away_team("Final-Full Result", guess[2])
+                else:
+                    res = self.game.database.get_match_result_by_phase_and_home_team(phase, guess[2])
+                pts = determine_points(guess, res)
+                if pts == 0:
                     self.table.setItem(idx, 3, QTableWidgetItem("X"))
                 else:
                     self.table.setItem(idx, 3, QTableWidgetItem("✓"))
-                self.table.setItem(idx, 4, QTableWidgetItem(str(determine_points(match, res))))
+                self.table.setItem(idx, 4, QTableWidgetItem(str(pts)))
 

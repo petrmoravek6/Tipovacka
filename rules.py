@@ -109,5 +109,9 @@ def determine_points(guess, result):
     elif result[0] == 'Final':
         return POINTS_FOR_FINAL_TEAM
     elif guess[1] == 'Winner':
-        return POINTS_FOR_WINNER_TEAM
+        if result[3] > result[4]:
+            real_winner = result[1]
+        else:
+            real_winner = result[2]
+        return POINTS_FOR_WINNER_TEAM if real_winner == guess[2] else 0
 

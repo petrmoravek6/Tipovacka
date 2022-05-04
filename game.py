@@ -57,10 +57,10 @@ class Game:
                 cnt += determine_points(self.database.get_match_guess_ks(player_nickname, 'Final', res[1]), res)
                 cnt += determine_points(self.database.get_match_guess_ks(player_nickname, 'Final', res[2]), res)
             elif res[0] == 'Final-Full Result':
-                if res[3] > res[4]:
-                    cnt += determine_points(self.database.get_match_guess_ks(player_nickname, 'Winner', res[1]), res)
-                else:
-                    cnt += determine_points(self.database.get_match_guess_ks(player_nickname, 'Winner', res[2]), res)
+                guess = self.database.get_match_guess_ks(player_nickname, 'Winner', res[1])
+                if guess is None:
+                    guess = self.database.get_match_guess_ks(player_nickname, 'Winner', res[2])
+                cnt += determine_points(guess, res)
             else:
                 cnt += determine_points(self.database.get_match_guess_ks(player_nickname, res[0], res[1]), res)
 

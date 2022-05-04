@@ -157,3 +157,12 @@ class Database:
         res = self.db.fetchone()
         self.__commit_and_close()
         return res
+
+    def get_match_result_by_phase_and_away_team(self, phase, away_t):
+        self.__connect()
+        self.db.execute(
+            "SELECT * FROM match_result WHERE phase=? AND away_team=?",
+            (phase, away_t))
+        res = self.db.fetchone()
+        self.__commit_and_close()
+        return res

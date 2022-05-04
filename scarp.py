@@ -92,4 +92,3 @@ class Scarper:
                 print(f'{phase}: {home_team} {score[0]}:{score[1]} {away_team},\t{datetime_object}')
                 self.database.add_match_result(phase, home_team, away_team, score[0], score[1], datetime_object.day,
                                           datetime_object.month, datetime_object.year)
-
