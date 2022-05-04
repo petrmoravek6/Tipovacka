@@ -90,7 +90,7 @@ class Database:
     def get_date_of_last_result(self):
         self.__connect()
         self.db.execute(
-            "SELECT date_day, date_month, date_year FROM match_result ORDER BY date_year DESC, date_month DESC, date_day DESC ")
+            "SELECT date_day, date_month, date_year FROM match_result ORDER BY date_year DESC, date_month DESC, date_day DESC")
         date = self.db.fetchone()
         self.__commit_and_close()
         if date is None:
@@ -109,6 +109,14 @@ class Database:
         self.__connect()
         self.db.execute(
             "SELECT * FROM match_result")
+        results = self.db.fetchall()
+        self.__commit_and_close()
+        return results
+
+    def get_all_results_ordered_by_date(self):
+        self.__connect()
+        self.db.execute(
+            "SELECT * FROM match_result ORDER BY date_year, date_month, date_day")
         results = self.db.fetchall()
         self.__commit_and_close()
         return results

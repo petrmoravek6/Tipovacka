@@ -1,4 +1,5 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
+from PyQt6.QtWidgets import QTableWidgetItem
 
 
 class GameSummaryWidget(QtWidgets.QWidget):
@@ -55,6 +56,7 @@ class GameSummaryWidget(QtWidgets.QWidget):
         self.verticalLayout.addLayout(self.horizontalLayout)
 
         self.retranslateUi()
+        self.display()
         QtCore.QMetaObject.connectSlotsByName(self)
 
     def retranslateUi(self):
@@ -68,3 +70,14 @@ class GameSummaryWidget(QtWidgets.QWidget):
         item.setText(_translate("game_summary", "CELKEM:"))
         self.back_btn.setText(_translate("game_summary", "Zpět"))
 
+    def display(self):
+        results = self.game.database.get_all_results_ordered_by_date()
+        for idx, res in enumerate(results):
+            self.summary_table.insertRow(idx)
+            if res[0] == 'Group Stage':
+                self.summary_table.setItem(idx, 0, QTableWidgetItem(
+                    str(res[0]) + ": " + str(res[1]) + " - " + str(res[2])))
+                self.summary_table.setItem(idx, 1, QTableWidgetItem(str(res[3]) + ":" + str(res[4])))
+            else:
+                continue
+                # todo
