@@ -7,7 +7,7 @@ from game import NicknameAlreadyInDatabase, BadCSVFile
 
 
 class AddPlayerWidget(QtWidgets.QWidget):
-    def __init__(self, game,main_window ,parent=None):
+    def __init__(self, game, main_window, parent=None):
         super(AddPlayerWidget, self).__init__(parent)
         self.game = game
         self.main_window = main_window

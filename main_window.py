@@ -4,6 +4,7 @@ from PyQt6.QtWidgets import QTableWidget, QMainWindow, QTableWidgetItem
 from PyQt6 import QtGui
 
 from add_player_widget import AddPlayerWidget
+from game_summary_widget import GameSummaryWidget
 from help_widget import HelpWidget
 from player_details_widget import PlayerDetailsWidget
 from remove_player_widget import RemovePlayerWidget
@@ -38,6 +39,7 @@ class MainWindow(QMainWindow):
         self.leftButtonsLayout.addWidget(self.gif)
         self.game_summary_btn = QtWidgets.QPushButton(self.widget)
         self.game_summary_btn.setObjectName("game_summary_btn")
+        self.game_summary_btn.clicked.connect(self.game_summary_btn_clicked)
         self.buttonGroup = QtWidgets.QButtonGroup(self)
         self.buttonGroup.setObjectName("buttonGroup")
         self.buttonGroup.addButton(self.game_summary_btn)
@@ -144,6 +146,10 @@ class MainWindow(QMainWindow):
 
     def player_details_btn_clicked(self):
         window = PlayerDetailsWidget(self.game)
+        window.show()
+
+    def game_summary_btn_clicked(self):
+        window = GameSummaryWidget(self.game)
         window.show()
 
     def display_rankings_table(self):
