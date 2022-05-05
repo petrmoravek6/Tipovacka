@@ -1,11 +1,10 @@
 import csv
-import os
 import sys
 from datetime import datetime
 import requests
-from database import Database
-from rules import Rules, determine_points
-from scarp import Scarper
+from app.src.database import Database
+from app.src.rules import Rules, determine_points
+from app.src.scarp import Scarper
 
 COMPETITION_URL = "https://www.sportinglife.com/football/fixtures-results/competitions/champions-league/63"
 COMPETITION_START = datetime(2021, 9, 14)

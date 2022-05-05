@@ -1,9 +1,9 @@
 import os
 
 from PyQt6 import QtWidgets, QtCore
-from PyQt6.QtWidgets import QWidget, QFileDialog
+from PyQt6.QtWidgets import QFileDialog
 
-from game import NicknameAlreadyInDatabase, BadCSVFile
+from app.src.game import NicknameAlreadyInDatabase, BadCSVFile
 
 
 class AddPlayerWidget(QtWidgets.QWidget):

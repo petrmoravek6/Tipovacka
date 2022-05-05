@@ -9,7 +9,7 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtWidgets import QTableWidgetItem
 
-from rules import determine_points
+from app.src.rules import determine_points
 
 
 class PlayerDetailsWidget(QtWidgets.QWidget):

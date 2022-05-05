@@ -2,7 +2,7 @@ from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtCore import QSize
 from PyQt6.QtWidgets import QTableWidgetItem
 
-from rules import determine_points
+from app.src.rules import determine_points
 
 
 class GameSummaryWidget(QtWidgets.QWidget):
@@ -101,45 +101,37 @@ class GameSummaryWidget(QtWidgets.QWidget):
                     item = QTableWidgetItem('+' + str(pts))
                     item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
                     self.summary_table.setItem(idx, i + 2, item)
-            elif res[0] == 'Final-Full Result':
-                winner = res[1] if res[3] > res[4] else res[2]
-                self.summary_table.setItem(idx, 0, QTableWidgetItem("Winner: " + str(winner)))
-                for i, player in enumerate(players):
-                    guess = self.game.database.get_match_guess_ks(player[0], 'Winner', res[1])
-                    if guess is None:
-                        guess = self.game.database.get_match_guess_ks(player[0], 'Winner', res[2])
-                    pts = determine_points(guess, res)
-                    pts_of_player[player[0]] += pts
-                    item = QTableWidgetItem('+' + str(pts))
-                    item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-                    self.summary_table.setItem(idx, i + 2, item)
-            elif res[0] == 'Final':
-                self.summary_table.setItem(idx, 0, QTableWidgetItem(str(res[0]) + ": " + str(res[1])))
-                for i, player in enumerate(players):
-                    guess = self.game.database.get_match_guess_ks(player[0], res[0], res[1])
-                    pts = determine_points(guess, res)
-                    pts_of_player[player[0]] += pts
-                    item = QTableWidgetItem('+' + str(pts))
-                    item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-                    self.summary_table.setItem(idx, i + 2, item)
-                idx += 1
-                self.summary_table.insertRow(idx)
-                self.summary_table.setItem(idx, 0, QTableWidgetItem(str(res[0]) + ": " + str(res[2])))
-                for i, player in enumerate(players):
-                    guess = self.game.database.get_match_guess_ks(player[0], res[0], res[2])
-                    pts = determine_points(guess, res)
-                    pts_of_player[player[0]] += pts
-                    item = QTableWidgetItem('+' + str(pts))
-                    item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-                    self.summary_table.setItem(idx, i + 2, item)
             else:
-                self.summary_table.setItem(idx, 0, QTableWidgetItem(str(res[0]) + ": " + str(res[1])))
-                for i, player in enumerate(players):
-                    guess = self.game.database.get_match_guess_ks(player[0], res[0], res[1])
-                    pts = determine_points(guess, res)
-                    pts_of_player[player[0]] += pts
-                    item = QTableWidgetItem('+' + str(pts))
-                    item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-                    self.summary_table.setItem(idx, i + 2, item)
+                item = QTableWidgetItem("✓")
+                item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+                self.summary_table.setItem(idx, 1, item)
+                if res[0] == 'Final-Full Result':
+                    winner = res[1] if res[3] > res[4] else res[2]
+                    self.summary_table.setItem(idx, 0, QTableWidgetItem("Winner: " + str(winner)))
+                    self.fill_the_row_of_ks(idx, res, players, True, None, 'Winner', pts_of_player)
+                elif res[0] == 'Final':
+                    self.summary_table.setItem(idx, 0, QTableWidgetItem(str(res[0]) + ": " + str(res[1])))
+                    self.fill_the_row_of_ks(idx, res, players, False, 1, res[0], pts_of_player)
+                    idx += 1
+                    self.summary_table.insertRow(idx)
+                    self.summary_table.setItem(idx, 0, QTableWidgetItem(str(res[0]) + ": " + str(res[2])))
+                    self.fill_the_row_of_ks(idx, res, players, False, 2, res[0], pts_of_player)
+                else:
+                    self.summary_table.setItem(idx, 0, QTableWidgetItem(str(res[0]) + ": " + str(res[1])))
+                    self.fill_the_row_of_ks(idx, res, players, False, 1, res[0], pts_of_player)
         for i, pl in enumerate(players):
             self.points_table.setItem(0, i, QTableWidgetItem(str(pts_of_player[pl[0]])))
+
+    def fill_the_row_of_ks(self, idx_row, res, players, try_second_res, team, phase, pts_of_player):
+        for i, player in enumerate(players):
+            if try_second_res:
+                guess = self.game.database.get_match_guess_ks(player[0], phase, res[1])
+                if guess is None:
+                    guess = self.game.database.get_match_guess_ks(player[0], phase, res[2])
+            else:
+                guess = self.game.database.get_match_guess_ks(player[0], phase, res[team])
+            pts = determine_points(guess, res)
+            pts_of_player[player[0]] += pts
+            item = QTableWidgetItem('+' + str(pts))
+            item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+            self.summary_table.setItem(idx_row, i + 2, item)

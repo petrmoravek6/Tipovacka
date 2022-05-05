@@ -3,11 +3,11 @@ from PyQt6.QtGui import QMovie
 from PyQt6.QtWidgets import QTableWidget, QMainWindow, QTableWidgetItem
 from PyQt6 import QtGui
 
-from add_player_widget import AddPlayerWidget
-from game_summary_widget import GameSummaryWidget
-from help_widget import HelpWidget
-from player_details_widget import PlayerDetailsWidget
-from remove_player_widget import RemovePlayerWidget
+from app.gui.add_player_widget import AddPlayerWidget
+from app.gui.game_summary_widget import GameSummaryWidget
+from app.gui.help_widget import HelpWidget
+from app.gui.player_details_widget import PlayerDetailsWidget
+from app.gui.remove_player_widget import RemovePlayerWidget
 
 
 class MainWindow(QMainWindow):
