@@ -1,6 +1,4 @@
-import os
 import sqlite3
-import sys
 from datetime import datetime
 
 
@@ -90,7 +88,8 @@ class Database:
     def get_date_of_last_result(self):
         self.__connect()
         self.db.execute(
-            "SELECT date_day, date_month, date_year FROM match_result ORDER BY date_year DESC, date_month DESC, date_day DESC")
+            "SELECT date_day, date_month, date_year FROM match_result "
+            "ORDER BY date_year DESC, date_month DESC, date_day DESC")
         date = self.db.fetchone()
         self.__commit_and_close()
         if date is None:
@@ -100,7 +99,7 @@ class Database:
     def get_all_players(self):
         self.__connect()
         self.db.execute(
-            "SELECT nickname_player FROM player")
+            "SELECT * FROM player")
         players = self.db.fetchall()
         self.__commit_and_close()
         return players
@@ -124,7 +123,8 @@ class Database:
     def get_match_guess_gs(self, nickname_player, phase, home_team, away_team):
         self.__connect()
         self.db.execute(
-            "SELECT * FROM match_guess_gs WHERE nickname_player=? AND phase=? AND home_team=? AND away_team=?", (nickname_player, phase, home_team, away_team))
+            "SELECT * FROM match_guess_gs WHERE nickname_player=? AND phase=? AND home_team=? AND away_team=?",
+            (nickname_player, phase, home_team, away_team))
         guess = self.db.fetchone()
         self.__commit_and_close()
         return guess
@@ -132,7 +132,8 @@ class Database:
     def get_match_guess_ks(self, nickname_player, phase, team):
         self.__connect()
         self.db.execute(
-            "SELECT * FROM match_guess_ks WHERE nickname_player=? AND phase=? AND team=?", (nickname_player, phase, team))
+            "SELECT * FROM match_guess_ks WHERE nickname_player=? AND phase=? AND team=?",
+            (nickname_player, phase, team))
         guess = self.db.fetchone()
         self.__commit_and_close()
         return guess

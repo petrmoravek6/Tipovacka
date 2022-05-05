@@ -43,8 +43,43 @@ class HelpWidget(QtWidgets.QWidget):
         self.setWindowTitle(_translate("helpWidget", "Nápověda"))
         self.back_btn.setText(_translate("helpWidget", "Zpět"))
         self.label.setText(_translate("helpWidget",
-                                      "<html><head/><body><p><span style=\" font-size:12pt;\">Vítejte v aplikace/hře </span><span style=\" font-size:12pt; font-weight:700;\">Tipovačka</span><span style=\" font-size:12pt;\">. Účastníci této hry vyplní mimo tuto aplikaci tabulku, ve které tipují<br/>výsledky fotbalové soutěže </span><span style=\" font-size:12pt; font-weight:700;\">Ligy Mistrů</span><span style=\" font-size:12pt;\">, konrétně sézony 2021/22.<br/>Po vytvoření profilu v aplikaci je hráč zařazen do hry a jeho výsledky (body) se zobrazují na hlavní stránce. <br/>U zápasů základní skupinové fáze se tipují celé výsledky. <br/>Ve vyřazovací části se tipují pouze týmy, které tam postoupí a v neposlední řadě taky celý vítěz turnaje. <br/>Za každý správně uhodnutý výsledek skutečně odehraných zápasů hráč obdrží body dle pravidel následovně:</span></p></body></html>"))
+                                      "<html><head/><body><p><span style=\" font-size:12pt;\">"
+                                      "Vítejte v aplikace/hře </span><span style=\" font-size:12pt; font-weight:700;\">"
+                                      "Tipovačka</span><span style=\" font-size:12pt;\">. "
+                                      "Účastníci této hry vyplní mimo"
+                                      " tuto aplikaci tabulku, ve které tipují<br/>výsledky fotbalové soutěže </span>"
+                                      "<span style=\" font-size:12pt; font-weight:700;\">Ligy Mistrů</span><span style="
+                                      "\" font-size:12pt;\">, konrétně sézony 2021/22.<br/>Po vytvoření profilu v "
+                                      "aplikaci je hráč zařazen do hry a jeho výsledky (body) se zobrazují na hlavní "
+                                      "stránce. <br/>U zápasů základní skupinové fáze se tipují celé výsledky. <br/>Ve "
+                                      "vyřazovací části se tipují pouze týmy, které tam postoupí a v neposlední řadě "
+                                      "taky celý vítěz turnaje. <br/>Za každý správně uhodnutý výsledek skutečně "
+                                      "odehraných zápasů hráč obdrží body dle pravidel "
+                                      "následovně:</span></p></body></html>"))
         self.label_2.setText(_translate("helpWidget",
-                                        "<html><head/><body><p><span style=\" font-size:10pt;\">- Celý výsledek se skóre: 20 bodů<br/>- Výsledek bez skóre: 5 bodů<br/>- Osmifinalista: 10 bodů<br/>- Čtvrtfinalista: 15 bodů<br/>- Semifinalista: 25 bodů<br/>- Finalista: 75 bodů<br/>- Vítěz celého turnaje: 120 bodů</span></p></body></html>"))
+                                        "<html><head/><body><p><span style=\" font-size:10pt;\">- Celý výsledek se "
+                                        "skóre: 20 bodů<br/>- Výsledek bez skóre: 5 bodů<br/>- Osmifinalista: 10 bodů"
+                                        "<br/>- Čtvrtfinalista: 15 bodů<br/>- Semifinalista: 25 bodů<br/>- Finalista: "
+                                        "75 bodů<br/>- Vítěz celého turnaje: 120 bodů</span></p></body></html>"))
         self.label_3.setText(_translate("helpWidget",
-                                        "<html><head/><body><p><br/></p><p><span style=\" font-size:14pt;\">Hlavní stránka:</span></p><p><span style=\" font-size:10pt; font-weight:700;\">Souhrn hry</span><span style=\" font-size:10pt;\"> - Zobrazí již odehrané zápasy a k nim, jak si který hráč vedl.</span></p><p><span style=\" font-size:10pt; font-weight:700;\">Přidání hráče</span><span style=\" font-size:10pt;\"> - Po vyplnění unikátní přezdívky, jména a příjmení a vybrání souboru s natipovanými zápasy <br/>daného hráče bude hráč zařazen do hry a jeho body a statistiky bude možné v aplikaci najít. <br/>Pozor, soubor musí splňovat dané podmnky a musí být ve formátu CSV, jinak se zobrazí chybová hláška.</span></p><p><span style=\" font-size:10pt; font-weight:700;\">Odebrání hráče</span><span style=\" font-size:10pt;\"> - Po vybrání hráče ze seznamu a potvrzení tlačítkem &quot;Smazat&quot; dojde ke smazání hráčových tipů a bude vyřazen ze hry.</span></p><p><span style=\" font-size:10pt; font-weight:700;\">Procházet hráče </span><span style=\" font-size:10pt;\">- Ze seznamu vlevo po vybrání hráče dojde k zobrazení jeho natipovaných výsledků. <br/>Pokud jsou již známy výsledky, zobrazí se zde skutečný výsledek a udělené body.</span></p><p><span style=\" font-size:10pt; font-weight:700;\">Aktualizovat</span><span style=\" font-size:10pt;\"> - Dojde k aktualizování již odehraných utkání turnaje z internetu. <br/>K aktualizování dochází také při spuštění aplikace nebo v Souhrnu hry či Procházení hráče.</span></p><p><br/></p></body></html>"))
+                                        "<html><head/><body><p><br/></p><p><span style=\" font-size:14pt;\">Hlavní "
+                                        "stránka:</span></p><p><span style=\" font-size:10pt; font-weight:700;\">"
+                                        "Souhrn hry</span><span style=\" font-size:10pt;\"> - Zobrazí již odehrané "
+                                        "zápasy a k nim, jak si který hráč vedl.</span></p><p><span style=\" font-size:"
+                                        "10pt; font-weight:700;\">Přidání hráče</span><span style=\" font-size:10pt;\">"
+                                        " - Po vyplnění unikátní přezdívky, jména a příjmení a vybrání souboru s "
+                                        "natipovanými zápasy <br/>daného hráče bude hráč zařazen do hry a jeho body "
+                                        "a statistiky bude možné v aplikaci najít. <br/>Pozor, soubor musí splňovat "
+                                        "dané podmnky a musí být ve formátu CSV, jinak se zobrazí chybová hláška."
+                                        "</span></p><p><span style=\" font-size:10pt; font-weight:700;\">Odebrání "
+                                        "hráče</span><span style=\" font-size:10pt;\"> - Po vybrání hráče ze seznamu "
+                                        "a potvrzení tlačítkem &quot;Smazat&quot; dojde ke smazání hráčových tipů a "
+                                        "bude vyřazen ze hry.</span></p><p><span style=\" font-size:10pt; font-weight:"
+                                        "700;\">Procházet hráče </span><span style=\" font-size:10pt;\">- Ze seznamu "
+                                        "vlevo po vybrání hráče dojde k zobrazení jeho natipovaných výsledků. <br/>"
+                                        "Pokud jsou již známy výsledky, zobrazí se zde skutečný výsledek a udělené "
+                                        "body.</span></p><p><span style=\" font-size:10pt; font-weight:700;\">"
+                                        "Aktualizovat</span><span style=\" font-size:10pt;\"> - Dojde k aktualizování "
+                                        "již odehraných utkání turnaje z internetu. <br/>K aktualizování dochází "
+                                        "také při spuštění aplikace nebo v Souhrnu hry či Procházení hráče.</span>"
+                                        "</p><p><br/></p></body></html>"))

@@ -1,6 +1,5 @@
 import datetime
 import re
-import sys
 import requests
 from bs4 import BeautifulSoup
 
@@ -32,11 +31,8 @@ class Scarper:
                 m1 += 1
 
     def update_results_in_database_of_month_and_year(self, month, year):
-        try:
-            html_content = requests.get(self.url + '/' + str(year) + '-' + str(str(month).zfill(2)), timeout=Scarper.request_timeout).text
-        except requests.exceptions.RequestException:
-            print("ERROR network")
-            sys.exit(1)
+        html_content = requests.get(self.url + '/' + str(year) + '-' + str(str(month).zfill(2)),
+                                    timeout=Scarper.request_timeout).text
         soup = BeautifulSoup(html_content, "html.parser")
         dates = soup.findAll('li', class_='DatesList__ListItem-sc-1iq29n-0 bVBqIz')
         for date in dates:
@@ -57,15 +53,15 @@ class Scarper:
                 if match_live_clock is None:
                     continue
                 match_live_clock = match_live_clock.text
-                #scarp final and add it to sql match result database as phase: Final-Full Result
+                # scarp final and add it to sql match result database as phase: Final-Full Result
                 if phase == 'Final':
                     if match_live_clock == 'AET' or match_live_clock == 'FT':
                         score_final = match.find('span', class_='Item__TeamsModifier-et8305-7 iEeIun').text
                         score_final = re.findall('[0-9]+', score_final)
                         home_team = match.find('span', class_='Item__TeamA-et8305-6 leKmkN').text
                         away_team = match.find('span', class_='Item__TeamB-et8305-8 bHURVJ').text
-                        print(f'Final-Full Result: {home_team} {score_final[0]}:{score_final[1]} {away_team},\t{datetime_object}')
-                        self.database.add_match_result('Final-Full Result', home_team, away_team, score_final[0], score_final[1],
+                        self.database.add_match_result('Final-Full Result', home_team, away_team,
+                                                       score_final[0], score_final[1],
                                                        datetime_object.day,
                                                        datetime_object.month, datetime_object.year)
                 # extra time / penalties
@@ -90,4 +86,4 @@ class Scarper:
                 away_team = match.find('span', class_='Item__TeamB-et8305-8 bHURVJ').text
                 # print(f'{phase}: {home_team} {score[0]}:{score[1]} {away_team},\t{datetime_object}')
                 self.database.add_match_result(phase, home_team, away_team, score[0], score[1], datetime_object.day,
-                                          datetime_object.month, datetime_object.year)
+                                               datetime_object.month, datetime_object.year)

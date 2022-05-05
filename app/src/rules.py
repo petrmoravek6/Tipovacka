@@ -43,7 +43,7 @@ class Rules:
             csv_reader = csv.reader(csv_file)
             for row in csv_reader:
                 if row[0] == 'Group Stage':
-                    if self.group_stage_matches.get((row[1], row[2])) != False or not is_positive_integer(row[3]) \
+                    if self.group_stage_matches.get((row[1], row[2])) is not False or not is_positive_integer(row[3]) \
                             or not is_positive_integer(row[4]) or self.group_stage_teams_cnt <= 0:
                         return False
                     self.group_stage_matches[(row[1], row[2])] = True
@@ -94,8 +94,8 @@ def determine_points(guess, result):
             return POINTS_FOR_EXACT_MATCH_RESULT
         # draw or win or lose guessed right
         elif result[3] == result[4] and guess[4] == guess[5] \
-            or result[3] > result[4] and guess[4] > guess[5] \
-            or result[3] < result[4] and guess[4] < guess[5]:
+                or result[3] > result[4] and guess[4] > guess[5] \
+                or result[3] < result[4] and guess[4] < guess[5]:
             return POINTS_FOR_MATCH_RESULT
         else:
             return 0
@@ -114,4 +114,3 @@ def determine_points(guess, result):
         else:
             real_winner = result[2]
         return POINTS_FOR_WINNER_TEAM if real_winner == guess[2] else 0
-

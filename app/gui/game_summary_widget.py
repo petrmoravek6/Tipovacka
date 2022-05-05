@@ -1,7 +1,6 @@
 from PyQt6 import QtCore, QtGui, QtWidgets
 from PyQt6.QtCore import QSize
 from PyQt6.QtWidgets import QTableWidgetItem
-
 from app.src.rules import determine_points
 
 
@@ -44,7 +43,7 @@ class GameSummaryWidget(QtWidgets.QWidget):
         font.setPointSize(13)
         font.setBold(True)
         item.setFont(font)
-        item.setSizeHint(QSize(550, 32))
+        item.setSizeHint(QSize(530, 32))
         self.points_table.setVerticalHeaderItem(0, item)
         self.verticalLayout.addWidget(self.points_table)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
@@ -59,7 +58,7 @@ class GameSummaryWidget(QtWidgets.QWidget):
         self.verticalLayout.addLayout(self.horizontalLayout)
 
         self.summary_table.setColumnWidth(0, 420)
-        self.summary_table.setColumnWidth(4, 35)
+        self.summary_table.setColumnWidth(1, 80)
 
 
         self.retranslateUi()

@@ -29,11 +29,11 @@ class PlayerDetailsWidget(QtWidgets.QWidget):
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.listOfPlayers = QtWidgets.QListWidget(self)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Minimum)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.listOfPlayers.sizePolicy().hasHeightForWidth())
-        self.listOfPlayers.setSizePolicy(sizePolicy)
+        size_policy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Policy.Minimum, QtWidgets.QSizePolicy.Policy.Minimum)
+        size_policy.setHorizontalStretch(0)
+        size_policy.setVerticalStretch(0)
+        size_policy.setHeightForWidth(self.listOfPlayers.sizePolicy().hasHeightForWidth())
+        self.listOfPlayers.setSizePolicy(size_policy)
         self.listOfPlayers.setObjectName("listOfPlayers")
         self.listOfPlayers.clicked.connect(lambda: self.display_players_statistics())
         self.horizontalLayout.addWidget(self.listOfPlayers)
@@ -138,4 +138,3 @@ class PlayerDetailsWidget(QtWidgets.QWidget):
                 else:
                     self.table.setItem(idx, 3, QTableWidgetItem("✓"))
                 self.table.setItem(idx, 4, QTableWidgetItem(str(pts)))
-
