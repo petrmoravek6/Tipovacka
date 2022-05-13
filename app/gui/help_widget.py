@@ -60,7 +60,7 @@ class HelpWidget(QtWidgets.QWidget):
                                         "<html><head/><body><p><span style=\" font-size:10pt;\">- Celý výsledek se "
                                         "skóre: 20 bodů<br/>- Výsledek bez skóre: 5 bodů<br/>- Osmifinalista: 10 bodů"
                                         "<br/>- Čtvrtfinalista: 15 bodů<br/>- Semifinalista: 25 bodů<br/>- Finalista: "
-                                        "75 bodů<br/>- Vítěz celého turnaje: 120 bodů</span></p></body></html>"))
+                                        "75 bodů<br/>- Vítěz celého turnaje: 125 bodů</span></p></body></html>"))
         self.label_3.setText(_translate("helpWidget",
                                         "<html><head/><body><p><br/></p><p><span style=\" font-size:14pt;\">Hlavní "
                                         "stránka:</span></p><p><span style=\" font-size:10pt; font-weight:700;\">"
