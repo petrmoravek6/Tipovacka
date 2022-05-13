@@ -18,14 +18,7 @@ class Game:
         self.update_results()
 
     def update_results(self):
-        try:
-            self.scarper.update_results_in_database()
-        except requests.exceptions.RequestException:
-            print("ERROR network")
-            sys.exit(1)
-        except AttributeError:
-            print("ERROR during scarping")
-            sys.exit(1)
+        self.scarper.update_results_in_database()
 
     def add_player(self, nickname, name, filepath):
         if self.database.player_exists(nickname):

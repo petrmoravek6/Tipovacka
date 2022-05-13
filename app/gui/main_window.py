@@ -112,6 +112,7 @@ class MainWindow(QMainWindow):
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate("MainWindow", "Tipovačka"))
+        self.setWindowIcon(QtGui.QIcon('img/icon.png'))
         self.gif.setText(_translate("MainWindow", "GIF"))
         self.game_summary_btn.setText(_translate("MainWindow", "Souhrn hry"))
         self.add_player_btn.setText(_translate("MainWindow", "Přidat hráče"))
@@ -137,7 +138,10 @@ class MainWindow(QMainWindow):
         window.show()
 
     def reload_btn_clicked(self):
-        self.game.update_results()
+        try:
+            self.game.update_results()
+        except Exception:
+            pass
         self.display_rankings_table()
 
     def help_btn_clicked(self):

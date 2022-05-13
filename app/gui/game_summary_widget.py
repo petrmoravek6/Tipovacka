@@ -8,7 +8,10 @@ class GameSummaryWidget(QtWidgets.QWidget):
     def __init__(self, game, parent=None):
         super(GameSummaryWidget, self).__init__(parent)
         self.game = game
-        game.update_results()
+        try:
+            game.update_results()
+        except Exception:
+            pass
         self.setObjectName("game_summary")
         self.setWindowModality(QtCore.Qt.WindowModality.ApplicationModal)
         self.resize(1500, 890)

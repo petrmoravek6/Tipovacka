@@ -16,7 +16,10 @@ class PlayerDetailsWidget(QtWidgets.QWidget):
     def __init__(self, game, parent=None):
         super(PlayerDetailsWidget, self).__init__(parent)
         self.game = game
-        self.game.update_results()
+        try:
+            self.game.update_results()
+        except Exception:
+            pass
         self.setObjectName("playerDetailsWidget")
         self.setWindowModality(QtCore.Qt.WindowModality.ApplicationModal)
         self.resize(1280, 720)
