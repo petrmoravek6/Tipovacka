@@ -1,5 +1,4 @@
 import csv
-
 from app.src.util import is_positive_integer
 
 POINTS_FOR_EXACT_MATCH_RESULT = 20

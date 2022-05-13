@@ -55,10 +55,10 @@ class AddPlayerWidget(QtWidgets.QWidget):
         self.horizontalLayout.addWidget(self.cancelBtn)
         self.verticalLayout.addLayout(self.horizontalLayout)
 
-        self.retranslateUi()
+        self.retranslate_ui()
         QtCore.QMetaObject.connectSlotsByName(self)
 
-    def retranslateUi(self):
+    def retranslate_ui(self):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle("Přidání nového hráče")
         self.addFileBtn.setText(_translate("addPlayerWidget", "Vybrat soubor se zápasy"))

@@ -59,16 +59,14 @@ class GameSummaryWidget(QtWidgets.QWidget):
         self.horizontalLayout.addWidget(self.back_btn)
         self.horizontalLayout.addStretch()
         self.verticalLayout.addLayout(self.horizontalLayout)
-
         self.summary_table.setColumnWidth(0, 420)
         self.summary_table.setColumnWidth(1, 80)
 
-
-        self.retranslateUi()
+        self.retranslate_ui()
         self.display()
         QtCore.QMetaObject.connectSlotsByName(self)
 
-    def retranslateUi(self):
+    def retranslate_ui(self):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate("game_summary", "Souhrn hry"))
         item = self.summary_table.horizontalHeaderItem(0)
@@ -92,7 +90,8 @@ class GameSummaryWidget(QtWidgets.QWidget):
         for idx, res in enumerate(results):
             self.summary_table.insertRow(idx)
             if res[0] == 'Group Stage':
-                self.summary_table.setItem(idx, 0, QTableWidgetItem(str(res[0]) + ": " + str(res[1]) + " - " + str(res[2])))
+                self.summary_table.setItem(idx, 0,
+                                           QTableWidgetItem(str(res[0]) + ": " + str(res[1]) + " - " + str(res[2])))
                 item = QTableWidgetItem(str(res[3]) + ":" + str(res[4]))
                 item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
                 self.summary_table.setItem(idx, 1, item)

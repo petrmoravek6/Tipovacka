@@ -1,5 +1,8 @@
+# This is as same class as Game in app.src
+# The only difference is that it doesn't have Database from app.src, but Database from tests.classes_for_testing
+# It takes a file path to database in its constructor's argument
 from datetime import datetime
-from app.src.database import Database
+from tests.classes_for_testing.database import Database
 from app.src.rules import *
 from app.src.scarp import Scarper
 
@@ -9,8 +12,8 @@ COMPETITION_END = datetime(2022, 5, 28)
 
 
 class Game:
-    def __init__(self):
-        self.database = Database()
+    def __init__(self, database_filepath):
+        self.database = Database(database_filepath)
         self.scarper = Scarper(COMPETITION_URL, COMPETITION_START, COMPETITION_END, self.database)
         self.update_results()
 

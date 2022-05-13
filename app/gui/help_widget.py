@@ -35,10 +35,10 @@ class HelpWidget(QtWidgets.QWidget):
         self.h_box.addWidget(self.back_btn)
         self.h_box.addStretch()
         self.verticalLayout.addLayout(self.h_box)
-        self.retranslateUi()
+        self.retranslate_ui()
         QtCore.QMetaObject.connectSlotsByName(self)
 
-    def retranslateUi(self):
+    def retranslate_ui(self):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate("helpWidget", "Nápověda"))
         self.back_btn.setText(_translate("helpWidget", "Zpět"))

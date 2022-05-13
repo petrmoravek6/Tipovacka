@@ -8,4 +8,3 @@ def is_positive_integer(number):
     except ValueError:
         return False
     return True
-

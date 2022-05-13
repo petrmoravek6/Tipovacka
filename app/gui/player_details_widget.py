@@ -78,7 +78,7 @@ class PlayerDetailsWidget(QtWidgets.QWidget):
         self.verticalLayout.addLayout(self.horizontalLayout2)
         self.display_list_of_players()
 
-        self.retranslateUi()
+        self.retranslate_ui()
         QtCore.QMetaObject.connectSlotsByName(self)
 
     def set_column_width(self):
@@ -88,7 +88,7 @@ class PlayerDetailsWidget(QtWidgets.QWidget):
         self.table.setColumnWidth(3, 152)
         self.table.setColumnWidth(4, 100)
 
-    def retranslateUi(self):
+    def retranslate_ui(self):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate("playerDetailsWidget", "Procházet hráče"))
         item = self.table.horizontalHeaderItem(0)

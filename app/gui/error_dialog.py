@@ -20,13 +20,3 @@ class UiErrorDialog(object):
         _translate = QtCore.QCoreApplication.translate
         errorDialog.setWindowTitle(_translate("errorDialog", "Chyba"))
         self.msg.setText(_translate("errorDialog", self.text))
-
-#
-# if __name__ == "__main__":
-#     import sys
-#     app = QtWidgets.QApplication(sys.argv)
-#     errorDialog = QtWidgets.QDialog()
-#     ui = UiErrorDialog()
-#     ui.setupUi(errorDialog, "asdasddasd")
-#     errorDialog.show()
-#     sys.exit(app.exec())

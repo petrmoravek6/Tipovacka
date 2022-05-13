@@ -106,10 +106,10 @@ class MainWindow(QMainWindow):
         self.statusbar.setObjectName("statusbar")
         self.setStatusBar(self.statusbar)
 
-        self.retranslateUi()
+        self.retranslate_ui()
         QtCore.QMetaObject.connectSlotsByName(self)
 
-    def retranslateUi(self):
+    def retranslate_ui(self):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate("MainWindow", "Tipovačka"))
         self.setWindowIcon(QtGui.QIcon('img/icon.png'))
