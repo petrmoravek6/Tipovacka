@@ -1,5 +1,7 @@
 import csv
 
+from app.src.util import is_positive_integer
+
 POINTS_FOR_EXACT_MATCH_RESULT = 20
 POINTS_FOR_MATCH_RESULT = 5
 POINTS_FOR_ROUND_OF_16_TEAM = 10
@@ -7,16 +9,6 @@ POINTS_FOR_QUARTER_FINALS_TEAM = 15
 POINTS_FOR_SEMI_FINALS_TEAM = 25
 POINTS_FOR_FINAL_TEAM = 75
 POINTS_FOR_WINNER_TEAM = 125
-
-
-def is_positive_integer(number):
-    try:
-        val = int(number)
-        if val < 0:
-            return False
-    except ValueError:
-        return False
-    return True
 
 
 class Rules:
