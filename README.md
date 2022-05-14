@@ -22,4 +22,4 @@ Often times you can find "gs" and "ks" in the code which stands for "Group Stage
 
 First opening of the app could take a few seconds, because of scraping all the matches.
 
-The app automatically downloads the data from sport website during opening the program and selecting "Souhrn hry" or "Procházet hráče" options at the main menu. If the user wants to update results from the internet manually, he can click on "Aktualizovat" button.
+The app automatically downloads the data from sport website during opening the program and selecting "Souhrn hry" or "Procházet hráče" options at the main menu. If the user wants to update results from the internet manually, he/she can click on "Aktualizovat" button.
