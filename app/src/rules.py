@@ -26,6 +26,10 @@ class Rules:
         self.final_teams = set()
         with open('csv/group_stage_matches.csv', mode='r') as gs_matches_file:
             csv_reader = csv.reader(gs_matches_file)
+            # self.group_stage_matches: dictionary; key: home_team, away_team, value: True/False
+            # It is used in test_csv_file method below
+            # If we ever load a home_team and away_team and there is True value for them then it means we have
+            # already loaded this pair
             self.group_stage_matches = {(row[0], row[1]): False for row in csv_reader}
         with open('csv/list_of_teams.csv', mode='r') as teams_file:
             csv_reader = csv.reader(teams_file)

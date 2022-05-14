@@ -13,12 +13,12 @@ if __name__ == "__main__":
     except requests.exceptions.RequestException:
         errorDialog = QtWidgets.QDialog()
         ui = UiErrorDialog()
-        ui.setupUi(errorDialog, "Chyba připojení k internetu.\nZkontrolujte své připojení a spusťe znovu.")
+        ui.setup_ui(errorDialog, "Chyba připojení k internetu.\nZkontrolujte své připojení a spusťe znovu.")
         errorDialog.show()
     except AttributeError:
         errorDialog = QtWidgets.QDialog()
         ui = UiErrorDialog()
-        ui.setupUi(errorDialog, "Interní chyba při získávání dat z internetu.\nKontaktujte vývojáře.")
+        ui.setup_ui(errorDialog, "Interní chyba při získávání dat z internetu.\nKontaktujte vývojáře.")
         errorDialog.show()
     else:
         win = MainWindow(game)
