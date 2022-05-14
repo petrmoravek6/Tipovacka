@@ -2,7 +2,7 @@
 
 This application/game is used for automatic football results scraping. It allows the user to add players and show their current score which is determined by how well they guessed the results of the matches.
 Application provides basic GUI with all different statistics. For more info about the application interface read "Nápověda" at the main menu.
-After selecting "Přidat hráče" option in the main menu, the user is asked to enter his name and select CSV file with his guesses. The CSV file must meet the given requirements:
+After selecting "Přidat hráče" option at the main menu, the user is asked to enter his name and select CSV file with his guesses. The CSV file must meet the given requirements:
     
 1.  Always use the pre-pared table "csv/import_file.csv", just edit it.
 2.  Every row represents one guess
@@ -21,3 +21,5 @@ Often times you can find "gs" and "ks" in the code which stands for "Group Stage
 
 
 First opening of the app could take a few seconds, because of scraping all the matches.
+
+The app automatically downloads the data from sport website during opening the program and selecting "Souhrn hry" or "Procházet hráče" options at the main menu. If the user wants to update results from the internet manually, he can click on "Aktualizovat" button.
