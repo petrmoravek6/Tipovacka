@@ -97,11 +97,7 @@ class GameSummaryWidget(QtWidgets.QWidget):
                 self.summary_table.setItem(idx, 1, item)
                 for i, player in enumerate(players):
                     guess = self.game.database.get_match_guess_gs(player[0], 'Group Stage', res[1], res[2])
-                    pts = determine_points(guess, res)
-                    pts_of_player[player[0]] += pts
-                    item = QTableWidgetItem('+' + str(pts))
-                    item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-                    self.summary_table.setItem(idx, i + 2, item)
+                    self.print_pts(idx, guess, res, i, player, pts_of_player)
             else:
                 item = QTableWidgetItem("✓")
                 item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
@@ -131,8 +127,11 @@ class GameSummaryWidget(QtWidgets.QWidget):
                     guess = self.game.database.get_match_guess_ks(player[0], phase, res[2])
             else:
                 guess = self.game.database.get_match_guess_ks(player[0], phase, res[team])
-            pts = determine_points(guess, res)
-            pts_of_player[player[0]] += pts
-            item = QTableWidgetItem('+' + str(pts))
-            item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
-            self.summary_table.setItem(idx_row, i + 2, item)
+            self.print_pts(idx_row, guess, res, i, player, pts_of_player)
+
+    def print_pts(self, idx_row, guess, res, idx_player, player, pts_of_player):
+        pts = determine_points(guess, res)
+        pts_of_player[player[0]] += pts
+        item = QTableWidgetItem('+' + str(pts))
+        item.setTextAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.summary_table.setItem(idx_row, idx_player + 2, item)

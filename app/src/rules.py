@@ -82,6 +82,8 @@ class Rules:
         return True
 
 
+# returns number of points
+# takes a result from database to given guess, if there is no result to given guess then return 0
 def determine_points(guess, result):
     if guess is None or result is None:
         return 0
