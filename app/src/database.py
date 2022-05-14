@@ -4,6 +4,7 @@ from datetime import datetime
 
 class Database:
     def __init__(self):
+        self.db_filepath = 'database.db'
         self.__connect()
         self.db.execute("""CREATE TABLE if not exists player (
                         nickname_player text NOT NULL PRIMARY KEY,
@@ -38,7 +39,7 @@ class Database:
         self.__commit_and_close()
 
     def __connect(self):
-        self.conn = sqlite3.connect('database.db')
+        self.conn = sqlite3.connect(self.db_filepath)
         self.db = self.conn.cursor()
 
     def __commit_and_close(self):
