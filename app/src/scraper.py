@@ -4,7 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
-class Scarper:
+class Scraper:
     request_timeout = 3.0
 
     def __init__(self, url, competition_start, competition_end, db):
@@ -36,7 +36,7 @@ class Scarper:
     # loads website with results. there is a unique url for every month
     def update_results_in_database_of_month_and_year(self, month, year):
         html_content = requests.get(self.url + '/' + str(year) + '-' + str(str(month).zfill(2)),
-                                    timeout=Scarper.request_timeout).text
+                                    timeout=Scraper.request_timeout).text
         soup = BeautifulSoup(html_content, "html.parser")
         dates = soup.findAll('li', class_='DatesList__ListItem-sc-1iq29n-0 bVBqIz')
         for date in dates:

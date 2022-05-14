@@ -4,7 +4,7 @@
 from datetime import datetime
 from tests.classes_for_testing.database import Database
 from app.src.rules import *
-from app.src.scarp import Scarper
+from app.src.scraper import Scraper
 
 COMPETITION_URL = "https://www.sportinglife.com/football/fixtures-results/competitions/champions-league/63"
 COMPETITION_START = datetime(2021, 9, 14)
@@ -14,11 +14,11 @@ COMPETITION_END = datetime(2022, 5, 28)
 class Game:
     def __init__(self, database_filepath):
         self.database = Database(database_filepath)
-        self.scarper = Scarper(COMPETITION_URL, COMPETITION_START, COMPETITION_END, self.database)
+        self.scraper = Scraper(COMPETITION_URL, COMPETITION_START, COMPETITION_END, self.database)
         self.update_results()
 
     def update_results(self):
-        self.scarper.update_results_in_database()
+        self.scraper.update_results_in_database()
 
     def add_player(self, nickname, name, filepath):
         if self.database.player_exists(nickname):

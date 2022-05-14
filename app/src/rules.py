@@ -18,6 +18,8 @@ class Rules:
         self.semi_finals_teams_cnt = 4
         self.final_teams_cnt = 2
         self.winner_cnt = 1
+        self.knockout_stage_info_needed = 2
+        self.csv_number_of_columns = 5
         self.round_of_16_teams = set()
         self.quarter_finals_teams = set()
         self.semi_finals_teams = set()
@@ -32,7 +34,11 @@ class Rules:
     def test_csv_file(self, file):
         with open(file, mode='r') as csv_file:
             csv_reader = csv.reader(csv_file)
+
             for row in csv_reader:
+                # checking if given row is not empty or has required number of columns
+                if len(row) != self.csv_number_of_columns:
+                    return False
                 if row[0] == 'Group Stage':
                     if self.group_stage_matches.get((row[1], row[2])) is not False or not is_positive_integer(row[3]) \
                             or not is_positive_integer(row[4]) or self.group_stage_teams_cnt <= 0:
@@ -66,6 +72,7 @@ class Rules:
                     if row[1] not in self.final_teams or self.winner_cnt <= 0:
                         return False
                     self.winner_cnt -= 1
+                # incorrect phase name
                 else:
                     return False
             if self.group_stage_teams_cnt != 0 or self.round_of_16_teams_cnt != 0 \
