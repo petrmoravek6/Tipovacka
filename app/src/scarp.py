@@ -14,6 +14,9 @@ class Scarper:
         self.database = db
 
     def update_results_in_database(self):
+        # loading all results from the internet every time would be slow,
+        # so we can load results only from data of last result in our database
+        # results will never be deleted in our database, so it's a safe approach
         most_recent_match_date = self.database.get_date_of_last_result()
         if most_recent_match_date is None:
             from_date = self.competition_start
@@ -30,6 +33,7 @@ class Scarper:
             else:
                 m1 += 1
 
+    # loads website with results. there is a unique url for every month
     def update_results_in_database_of_month_and_year(self, month, year):
         html_content = requests.get(self.url + '/' + str(year) + '-' + str(str(month).zfill(2)),
                                     timeout=Scarper.request_timeout).text
@@ -40,10 +44,12 @@ class Scarper:
             date_time = date.find('h3').text + ' ' + str(year)
             datetime_object = datetime.datetime.strptime(date_time, "%A %B %d %Y")
             today = datetime.datetime.now()
+            # don't scrape matches which will be played in the future
             if datetime_object > today:
                 break
             for match in matches:
                 phase = date.find('h4', class_='RoundList__RoundHeader-sc-718t01-0 dJPQKF')
+                # there is no prefix (phase) for group matches on the website, so we have to manually add it
                 if phase is None:
                     phase = "Group Stage"
                 else:
@@ -53,7 +59,12 @@ class Scarper:
                 if match_live_clock is None:
                     continue
                 match_live_clock = match_live_clock.text
-                # scarp final and add it to sql match result database as phase: Final-Full Result
+                # scrape final and add it to sql match result database as phase: Final-Full Result
+                # for future purposes of this app (e.g.: World Cup) we would like to not just store information about
+                # which team got through quarter finals, semi-finals,.., but also the results.
+                # For final, we would like to store the information about complete winner of the competition
+                # (we need to know total score) and also the score after the standard play time,
+                # if there is extra time or penalties
                 if phase == 'Final':
                     if match_live_clock == 'AET' or match_live_clock == 'FT':
                         score_final = match.find('span', class_='Item__TeamsModifier-et8305-7 iEeIun').text
@@ -65,6 +76,7 @@ class Scarper:
                                                        datetime_object.day,
                                                        datetime_object.month, datetime_object.year)
                 # extra time / penalties
+                # store the score in the standard time only
                 if match_live_clock == 'AET':
                     details_url = 'https://www.sportinglife.com' + match.find('a')['href']
                     html_content2 = requests.get(details_url, timeout=4.0).text
@@ -73,12 +85,11 @@ class Scarper:
                                            class_='PeriodScores__StyledPeriodScores-sc-6qgbsu-0 cCYRhW').text
                     scores = re.findall('[0-9]+-[0-9]', time_info)
                     score = re.findall('[0-9]+', scores[1])
-                    # print('AET ', end='')
-                    # FT means Full Time. If the match clock isn't FT nor AET then don't scarp anything
+                    # FT means Full Time.
                 elif match_live_clock == 'FT':
                     score = match.find('span', class_='Item__TeamsModifier-et8305-7 iEeIun').text
                     score = re.findall('[0-9]+', score)
-                    # Unknown match_live_clock
+                    # Unknown match_live_clock. If the match clock isn't FT nor AET then don't scrape anything
                 else:
                     continue
 
