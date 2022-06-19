@@ -1,6 +1,6 @@
 # Tipovací hra
 
-This application/game is used for automatic football results scraping. It allows the user to add players and show their current score which is determined by how well they guessed the results of the matches. **The principles and purpose of this app is described in "report.pdf" (in Czech).**\
+This application/game is used for automatic football results scraping. It allows the user to add players and show their current score which is determined by how well they guessed the results of the matches. **The principles and purpose of this app is described in "report.pdf" (in Czech). Please, read it first!**\
 **Application provides basic GUI in Czech language** with all different statistics. For more info about the application interface read "Nápověda" at the main menu.
 After selecting "Přidat hráče" option at the main menu, the user is asked to enter his name and select CSV file with his guesses. The CSV file must meet the given requirements:
     
