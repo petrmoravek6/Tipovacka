@@ -16,8 +16,8 @@ Often times you can find "gs" and "ks" in the code which stands for "Group Stage
 
 
 *  **Necessary dependencies to install: "requirements.txt"**
-*  **To start the app execute in terminal: "python3 -m app.src.main" in the top folder "moravp15"**
-*  **To run the tests execute in terminal: "python3 -m pytest tests" in the top folder "moravp15"**
+*  **To start the app execute in linux terminal: "python3 -m app.src.main" in the top folder "moravp15"**
+*  **To run the tests execute in linux terminal: "python3 -m pytest tests" in the top folder "moravp15"**
 
 
 First opening of the app could take a few seconds, because of scraping all the matches.
